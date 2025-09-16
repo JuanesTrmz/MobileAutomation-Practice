@@ -39,8 +39,6 @@ public class LoginScreen extends BaseScreen {
     WebElement lblDesc;
 
     // SIGN UP ELEMENTS
-    @AndroidFindBy(uiAutomator = "className(\"android.widget.FrameLayout\").instance(0)")
-    WebElement fraSignUpCompleted;
     @AndroidFindBy(uiAutomator = "text(\"Signed Up!\")")
     WebElement lblTitleSignup;
     @AndroidFindBy(uiAutomator = "text(\"You successfully signed up!\")")
@@ -48,12 +46,20 @@ public class LoginScreen extends BaseScreen {
     @AndroidFindBy(uiAutomator = "text(\"OK\")")
     WebElement btnOk;
 
+    // LOGIN SUCCESSFUL ELEMENTS
+    @AndroidFindBy(uiAutomator = "text(\"Success\")")
+    WebElement lblTitleLogS;
+    @AndroidFindBy(uiAutomator = "text(\"You are logged in!\")")
+    WebElement lblDescLogS;
+    @AndroidFindBy(uiAutomator = "text(\"OK\")")
+    WebElement btnOkLogin;
+
     public LoginScreen(AppiumDriver driver) {
         super(driver);
     }
 
     public void tapOnLoginButton() {
-        click(btnHome);
+        click(btnLogin);
     }
     public void tapOnSignUpButton() {
         click(btnSignUp);
@@ -91,10 +97,18 @@ public class LoginScreen extends BaseScreen {
     }
 
     public boolean isSignedUpScreenDisplayed() {
-        isTheElementVisible(fraSignUpCompleted, 10);
         isTheElementVisible(lblTitleSignup, 10);
         isTheElementVisible(lblDescSignUp, 10);
         isTheElementVisible(btnOk, 10);
+        System.out.println("Sign Up done");
+
+        return true;
+    }
+
+    public boolean wasLoginSuccessful() {
+        isTheElementVisible(lblTitleLogS, 10);
+        isTheElementVisible(lblDescLogS, 10);
+        isTheElementVisible(btnOkLogin, 10);
         System.out.println("Sign Up done");
 
         return true;
