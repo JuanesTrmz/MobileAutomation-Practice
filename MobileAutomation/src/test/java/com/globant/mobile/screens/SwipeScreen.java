@@ -79,19 +79,21 @@ public class SwipeScreen extends BaseScreen {
     }
 
     public boolean isLastCardInScreen() {
-        isTheElementVisible(fraLastCard, 10);
-        isTheElementVisible(lblLastCardTitle, 10);
-        isTheElementVisible(lblLastCardDesc, 10);
-        System.out.println("Last card is in screen");
-
-        return true;
+        try {
+            return isTheElementVisible(fraLastCard, 5) &&
+                    isTheElementVisible(lblLastCardTitle, 5) &&
+                    isTheElementVisible(lblLastCardDesc, 5);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean wasTheRobotBelowFound() {
-        isTheElementVisible(imgRobotBelow, 10);
-        isTheElementVisible(lblFoundMe, 10);
-        System.out.println("You found the robot in the bottom!");
-
-        return true;
+        try {
+            return isTheElementVisible(imgRobotBelow, 10) &&
+                    isTheElementVisible(lblFoundMe, 10);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

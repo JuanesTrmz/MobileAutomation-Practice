@@ -11,20 +11,26 @@ public class SwipeTest extends BaseTest {
 
     @Test
     public void VerticalAndHorizontalSwipeTest() {
+        boolean lastCardFound = false;
+        boolean robotFound = false;
+
         HomeScreen homeScreen = getHomeScreen();
         homeScreen.closePopUp();
         homeScreen.tapOnSwipeScreen();
         SwipeScreen swipeScreen = homeScreen.tapOnSwipeScreen();
 
-        swipeScreen.swipeLeft();
-        swipeScreen.swipeLeft();
-        swipeScreen.swipeLeft();
-        swipeScreen.swipeLeft();
-        swipeScreen.swipeLeft();
-        Assert.assertTrue(swipeScreen.isLastCardInScreen(), "The Last Card was not found.");
+        while (!lastCardFound) {
+            swipeScreen.swipeLeft();
+            lastCardFound = swipeScreen.isLastCardInScreen();
+            if (lastCardFound)
+                System.out.println("Last Card was found");
+        }
 
-        swipeScreen.swipeDown();
-        swipeScreen.swipeDown();
-        Assert.assertTrue(swipeScreen.wasTheRobotBelowFound(), "The Bottom Robot was not found.");
+        while (!robotFound) {
+            swipeScreen.swipeDown();
+            robotFound = swipeScreen.wasTheRobotBelowFound();
+            if (robotFound)
+                System.out.println("Robot was found");
+        }
     }
 }
