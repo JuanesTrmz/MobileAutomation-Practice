@@ -20,7 +20,7 @@ public class BaseScreen {
 
     public BaseScreen(AppiumDriver driver) {
         this.driver = driver;
-        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+        PageFactory.initElements(new AppiumFieldDecorator(driver, Duration.ofSeconds(10)), this);
     }
 
     public void click(WebElement webElement) {
@@ -40,7 +40,20 @@ public class BaseScreen {
         }
     }
 
-    public void swipeVertically(WebElement element1, WebElement element2) {
+    public void swipeVertically(int startX, int startY, int endX, int endY) {
+
+        PointerInput dedito = new PointerInput(PointerInput.Kind.TOUCH, "dedito");
+        Sequence sequence = new Sequence(dedito, 0)
+                .addAction(dedito.createPointerMove(Duration.ofMillis(0), PointerInput.Origin.viewport(), startX, startY))
+                .addAction(dedito.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                .addAction(new Pause(dedito, Duration.ofMillis(125)))
+                .addAction(dedito.createPointerMove(Duration.ofMillis(1000), PointerInput.Origin.viewport(), endX, endY))
+                .addAction(dedito.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        driver.perform(List.of(sequence));
+
+    }
+
+    public void swipeHorizontally(WebElement element1, WebElement element2) {
         int centerXElement1 = element1.getRect().getX() + element1.getRect().getWidth() / 2;
         int centerYElement1 = element1.getRect().getY() + element1.getRect().getHeight() / 2;
         int centerXElement2 = element2.getRect().getX() + element2.getRect().getWidth() / 2;
@@ -51,8 +64,10 @@ public class BaseScreen {
                 .addAction(dedito.createPointerMove(Duration.ofMillis(0), PointerInput.Origin.viewport(), centerXElement1, centerYElement1))
                 .addAction(dedito.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
                 .addAction(new Pause(dedito, Duration.ofMillis(125)))
-                .addAction(dedito.createPointerMove(Duration.ofMillis(1000), PointerInput.Origin.viewport(), centerXElement1, centerYElement2))
+                .addAction(dedito.createPointerMove(Duration.ofMillis(1000), PointerInput.Origin.viewport(), centerXElement2, centerYElement1))
                 .addAction(dedito.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
         driver.perform(List.of(sequence));
+
     }
+
 }

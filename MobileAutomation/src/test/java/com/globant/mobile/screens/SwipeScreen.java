@@ -5,6 +5,8 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import org.openqa.selenium.WebElement;
 
+import javax.swing.colorchooser.AbstractColorChooserPanel;
+
 
 public class SwipeScreen extends BaseScreen {
 
@@ -25,13 +27,40 @@ public class SwipeScreen extends BaseScreen {
     WebElement lblSubtitle;
     @AndroidFindBy(uiAutomator = "description(\"card\").instance(0)")
     WebElement fraCard0;
+    @AndroidFindBy(uiAutomator = "description(\"card\").instance(1)")
+    WebElement fraCard1;
+
+    // CARDS OF CAROUSEL
+    @AndroidFindBy(uiAutomator = "description(\"card\")")
+    WebElement fraLastCard;
+    @AndroidFindBy(uiAutomator = "text(\"COMPATIBLE\")")
+    WebElement lblLastCardTitle;
+    @AndroidFindBy(uiAutomator = "text(\"WebdriverIO works in combination with most of the TDD and BDD test frameworks in the JavaScript world\")")
+    WebElement lblLastCardDesc;
+
+    // ROBOT OF THE BOTTOM OF THE PAGE
+    @AndroidFindBy(accessibility = "WebdriverIO logo")
+    WebElement imgRobotBelow;
+    @AndroidFindBy(uiAutomator = "text(\"You found me!!!\")")
+    WebElement lblFoundMe;
 
     public SwipeScreen(AppiumDriver driver) {
         super(driver);
     }
 
     public void swipeDown() {
-        //swipeVertically();
+        int screenWidth = driver.manage().window().getSize().getWidth();
+        int screenHeight = driver.manage().window().getSize().getHeight();
+
+        int startX = screenWidth / 2;
+        int startY = (int) (screenHeight * 0.9);
+        int endY   = (int) (screenHeight * 0.2);
+
+        swipeVertically(startX, startY, startX, endY);
+    }
+
+    public void swipeLeft() {
+        swipeHorizontally(fraCard1, fraCard0);
     }
 
     public DragScreen tapOnDragButton() {
@@ -43,7 +72,25 @@ public class SwipeScreen extends BaseScreen {
         isTheElementVisible(lblTitle, 10);
         isTheElementVisible(lblSubtitle, 10);
         isTheElementVisible(fraCard0, 10);
+        isTheElementVisible(fraCard1, 10);
         System.out.println("Swipe is displayed");
+
+        return true;
+    }
+
+    public boolean isLastCardInScreen() {
+        isTheElementVisible(fraLastCard, 10);
+        isTheElementVisible(lblLastCardTitle, 10);
+        isTheElementVisible(lblLastCardDesc, 10);
+        System.out.println("Last card is in screen");
+
+        return true;
+    }
+
+    public boolean wasTheRobotBelowFound() {
+        isTheElementVisible(imgRobotBelow, 10);
+        isTheElementVisible(lblFoundMe, 10);
+        System.out.println("You found the robot in the bottom!");
 
         return true;
     }

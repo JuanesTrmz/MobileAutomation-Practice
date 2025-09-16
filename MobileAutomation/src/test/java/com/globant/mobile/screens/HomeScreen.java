@@ -57,6 +57,11 @@ public class HomeScreen extends BaseScreen {
         return new LoginScreen(driver);
     }
 
+    public SwipeScreen tapOnSwipeScreen() {
+        click(btnSwipe);
+        return new SwipeScreen(driver);
+    }
+
     public void closePopUp() {
         try {
             click(btnOk);
